@@ -38,6 +38,8 @@ header {
 
 .router-link-active {
   color: black;
+  padding-bottom: 10px;
+  border-bottom: 2px solid black;
 }
 
 </style>
