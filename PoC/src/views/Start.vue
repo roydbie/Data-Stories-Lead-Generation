@@ -5,6 +5,8 @@
 <template>
   <main>
 
+    <h2 v-if="data !== null">Aantal rows in tabel: {{ data.length }}</h2>
+
     <table class="table">
       <thead>
         <tr>
