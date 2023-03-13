@@ -4,8 +4,24 @@
 
 <template>
   <main>
-    Start  hallooooo
-    {{ data }}
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Straatnaam</th>
+          <th scope="col">Soort</th>
+          <th scope="col">Aantal parkeerplaatsen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in data">
+          <th scope="row">{{ row.fields.straat }}</th>
+          <td>{{ row.fields.type_en_merk }}</td>
+          <td>{{ row.fields.aantal }}</td>
+        </tr>
+      </tbody>
+    </table>
+
   </main>
 </template>
 
@@ -20,8 +36,8 @@ export default {
     },
   mounted() {
     axios
-        .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-        .then(response => (this.data = response))
+        .get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=parkeerplaatsen&q=&rows=10000&facet=straat&facet=type_en_merk&facet=aantal')
+        .then(response => (this.data = response.data.records))
   }
 
 }
