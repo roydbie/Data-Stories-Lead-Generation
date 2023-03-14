@@ -12,21 +12,20 @@
     </div>
 
     <div v-if="loading === false">
-      <h2 v-if="data !== null">Aantal rows in tabel: {{ data.length }}</h2>
 
       <table class="table">
         <thead>
           <tr>
             <th scope="col">Straatnaam</th>
-            <th scope="col">Soort</th>
+            <th scope="col">Type</th>
             <th scope="col">Aantal parkeerplaatsen</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="row in data">
-            <th scope="row">{{ row.fields.straat }}</th>
-            <td>{{ row.fields.type_en_merk }}</td>
-            <td>{{ row.fields.aantal }}</td>
+          <tr v-for="row in parkeerplaatsData">
+            <th scope="row">{{ row[0] }}</th>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
           </tr>
         </tbody>
       </table>
@@ -41,16 +40,30 @@ import axios from 'axios';
 export default {
     data() {
       return {
-        data: null,
+        parkeerplaatsData: null,
         loading: false
       }
     },
   mounted() {
     this.loading = true;
     axios
-        .get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=parkeerplaatsen&q=&rows=10000&facet=straat&facet=type_en_merk&facet=aantal')
-        .then(response => (this.data = response.data.records))
-        .then(() => {this.loading = false})
+        .get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=parkeerplaatsen&q=&rows=10000&start=0&sort=straat&facet=straat&facet=type_en_merk&facet=aantal')
+        .then(response => {
+
+          let uniekeElementen = [...new Set(response.data.records)];
+
+          const elementenTellen = uniekeElementen.map(value => [value.fields.straat, value.fields.type_en_merk, response.data.records.filter(str => str.fields.straat === value.fields.straat && str.fields.type_en_merk === value.fields.type_en_merk).length]);
+
+          this.parkeerplaatsData = elementenTellen.filter((value, index) => {
+            const _value = JSON.stringify(value);
+            return index === elementenTellen.findIndex(obj => {
+              return JSON.stringify(obj) === _value;
+            });
+          });
+        })
+        .then(() => {
+          this.loading = false
+        })
   }
 
 }
