@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Start from '../views/Start.vue'
-import Settings from '../views/Settings.vue'
+import Local from '../views/Local.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,9 +11,9 @@ const router = createRouter({
       component: Start
     },
     {
-      path: '/settings',
-      name: 'Settings',
-      component: Settings
+      path: '/local',
+      name: 'Local',
+      component: Local
     },
   ]
 })
