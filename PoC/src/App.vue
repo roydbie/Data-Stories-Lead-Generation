@@ -12,10 +12,10 @@ import { RouterLink, RouterView } from 'vue-router'
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-5">
               <li class="nav-item">
-                <RouterLink class="menu-item" to="/">Home</RouterLink>
+                <RouterLink class="menu-item" to="/">API data</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink class="menu-item" to="/settings">Settings</RouterLink>
+                <RouterLink class="menu-item" to="/local">Local data</RouterLink>
               </li>
             </ul>
           </div>
@@ -38,6 +38,8 @@ header {
 
 .router-link-active {
   color: black;
+  padding-bottom: 10px;
+  border-bottom: 2px solid black;
 }
 
 </style>

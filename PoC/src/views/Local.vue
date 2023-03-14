@@ -49,12 +49,12 @@ export default {
   mounted() {
     this.loading = true;
     axios
-        .get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=afvalbakken0&q=&rows=10000&sort=buurt&facet=stadsdeel&facet=buurt&facet=straat&facet=eigenaar&facet=beheerder&facet=soort&facet=voet&facet=kleur&facet=locatie&facet=inhoud')
+        .get('afvalbakken.json')
         .then(response => {
 
-          let uniekeElementen = [...new Set(response.data.records)];
+          let uniekeElementen = [...new Set(response.data)];
 
-          const elementenTellen = uniekeElementen.map(value => [value.fields.stadsdeel, value.fields.buurt, response.data.records.filter(str => str.fields.buurt === value.fields.buurt && str.fields.stadsdeel === value.fields.stadsdeel).length]);
+          const elementenTellen = uniekeElementen.map(value => [value.stadsdeel, value.buurt, response.data.filter(str => str.buurt === value.buurt && str.stadsdeel === value.stadsdeel).length]);
 
           this.afvalbakkenData = elementenTellen.filter((value, index) => {
             const _value = JSON.stringify(value);
