@@ -13,7 +13,7 @@
 
     <div v-if="loading === false" class="row" style="max-width: 100%;">
       <div class="col" style="max-height: 80vh!important;overflow: scroll;">
-        <h1>{{ wasteBinsRowCount }}</h1>
+        <h1>Total neighbourhoods: {{ wasteBinsRowCount }}</h1>
         <table class="table">
           <thead>
           <tr>
