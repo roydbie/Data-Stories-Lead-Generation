@@ -34,7 +34,9 @@
         </table>
       </div>
       <div class="col" style="max-height: 80vh!important;overflow: scroll;">
-        joo
+        <template v-if="wasteBinsData != null">
+          <WasteBinsChart :data="wasteBinsData"></WasteBinsChart>
+        </template>
       </div>
     </div>
 
@@ -43,8 +45,13 @@
 
 <script>
 import axios from 'axios';
+import WasteBinsChart from "@/components/WasteBinsChart.vue";
 
 export default {
+    components: {
+      WasteBinsChart
+    },
+
     data() {
       return {
         wasteBinsData: null,
