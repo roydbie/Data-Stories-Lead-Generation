@@ -11,8 +11,8 @@
       </div>
     </div>
 
-    <div v-if="loading === false" class="row">
-      <div class="col">
+    <div v-if="loading === false" class="row" style="max-width: 100%;">
+      <div class="col" style="max-height: 80vh!important;overflow: scroll;">
         <h1>{{ wasteBinsRowCount }}</h1>
         <table class="table">
           <thead>
@@ -20,6 +20,7 @@
             <th scope="col"><b>Neighbourhood</b></th>
             <th scope="col"><b>Neighbourhood code</b></th>
             <th scope="col"><b>Amount of waste bins</b></th>
+            <th scope="col"><b>Amount of residents</b></th>
           </tr>
           </thead>
           <tbody>
@@ -27,12 +28,13 @@
               <th scope="row">{{ row.neighbourhoodName }}</th>
               <td>{{ row.neighbourhoodCode }}</td>
               <td>{{ row.amountOfBins }}</td>
+              <td>{{ row.amountOfResidents }}</td>
           </tr>
           </tbody>
         </table>
       </div>
-      <div class="col">
-
+      <div class="col" style="max-height: 80vh!important;overflow: scroll;">
+        joo
       </div>
     </div>
 
@@ -82,13 +84,24 @@ export default {
               .then(response => {
                 response.data.forEach(buurt => {
                   if (this.wasteBinsData.find(item => item.neighbourhoodName === buurt.buurtnaam)) {
-                    this.wasteBinsData.find(item => item.neighbourhoodName === buurt.buurtnaam).neighbourhoodCode = buurt.buurtnaam;
+                    this.wasteBinsData.find(item => item.neighbourhoodName === buurt.buurtnaam).neighbourhoodCode = buurt.buurtcode;
                   }
                 })
               })
         })
         .then(() => {
-          this.loading = false;
+          axios
+              .get('bevolking.json')
+              .then(response => {
+                response.data.forEach(buurt => {
+                  if (this.wasteBinsData.find(item => item.neighbourhoodCode === buurt.buurtcode)) {
+                    this.wasteBinsData.find(item => item.neighbourhoodCode === buurt.buurtcode).amountOfResidents = buurt.totaal_aantal_inwoners;
+                  }
+                })
+              })
+              .then(() => this.loading = false)
+        })
+        .then(() => {
           this.wasteBinsRowCount = this.wasteBinsData.length;
         })
 
