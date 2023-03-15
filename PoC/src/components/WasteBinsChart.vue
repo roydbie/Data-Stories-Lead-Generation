@@ -28,19 +28,30 @@ export default {
   data() {
     return {
       chartData: {
-        datasets: [
-          {
-            label: 'Test voor nu',
-            fill: false,
-            borderColor: '#f87979',
-            backgroundColor: '#f87979',
-            data: []
-          }
-        ]
+        datasets: []
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Amount of residents in the neighbourhood'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Amount of waste bins in the neighbourhood'
+            }
+          }
+        }
       },
       loaded: false
     }
@@ -49,10 +60,10 @@ export default {
     const datasets = [];
     this.data.forEach(item => {
       if (item.amountOfBins !== null && item.amountOfResidents !== null) {
-        datasets.push({x: item.amountOfResidents, y: item.amountOfBins});
+        datasets.push({label: item.neighbourhoodName + " (Residents, Waste bins)", fill: false, borderColor: '#f87979', backgroundColor: '#f87979', data: [{x: item.amountOfResidents, y: item.amountOfBins}]});
       }
     })
-    this.chartData.datasets[0].data = datasets;
+    this.chartData.datasets = datasets;
     this.loaded = true;
   },
 };

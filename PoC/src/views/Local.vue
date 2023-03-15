@@ -33,7 +33,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col" style="max-height: 80vh!important;overflow: scroll;">
+      <div class="col" style="max-height: 80vh!important;overflow: scroll;padding:2rem;">
         <template v-if="wasteBinsData != null">
           <WasteBinsChart :data="wasteBinsData"></WasteBinsChart>
         </template>
