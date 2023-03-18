@@ -17,9 +17,10 @@ Neighbourhoods
 
     </style>
     <h1>Neighbourhoods</h1>
+    <h3>Number of rows: {{data.records|length}}</h3>
     <div class="listofneighbourhoods">
-        {% for neighbourhood in neighbourhoods %}
-            <a href="/neighbourhoods/{{neighbourhood.id}}">{{ neighbourhood.name }}</a><br>
+        {% for neighbourhood in data.records %}
+            <a href="/neighbourhoods/">{{ neighbourhood.fields.buurt }}</a><br>
         {% endfor %}
     </div>
 {% endblock %}
