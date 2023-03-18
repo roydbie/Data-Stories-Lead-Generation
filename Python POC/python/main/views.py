@@ -4,10 +4,14 @@ from .models import Neighbourhood
 
 # Create your views here.
 
-def index(response):
-    return HttpResponse("<h1>Jooo index</h1>")
+def home(response):
+    return render(response, "main/home.html", {})
+
+def neighbourhoods(response):
+    x = Neighbourhood.objects.all()
+    return render(response, "main/neighbourhoods.html", {"neighbourhoods": x})
 
 def neighbourhood(response, id):
     x = Neighbourhood.objects.get(id=id)
-    return HttpResponse("<h1>%s<h1>" % x.name)
+    return render(response, "main/neighbourhood.html", {"neighbourhood": x})
 

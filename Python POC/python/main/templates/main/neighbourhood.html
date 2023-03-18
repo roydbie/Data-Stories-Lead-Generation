@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+{{ neighbourhood.name }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ neighbourhood.name }}</h1>
+    <ul>
+        {% for neighbourhood in neighbourhoods %}
+            {% if neighbourhood.name == "" %}
+                #niks
+            {% else  %}
+                <li>{{ neighbourhood.name }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Neighbourhoods
+{% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        .listofneighbourhoods {
+            margin-left: 20px;
+        }
+
+        .listofneighbourhoods a {
+            text-decoration: none;
+            color: darkgreen;
+        }
+
+    </style>
+    <h1>Neighbourhoods</h1>
+    <div class="listofneighbourhoods">
+        {% for neighbourhood in neighbourhoods %}
+            <a href="/neighbourhoods/{{neighbourhood.id}}">{{ neighbourhood.name }}</a><br>
+        {% endfor %}
+    </div>
+{% endblock %}
