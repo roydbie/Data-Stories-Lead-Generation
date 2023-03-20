@@ -17,10 +17,36 @@ Neighbourhoods
 
     </style>
     <h1>Neighbourhoods</h1>
-    <h3>Number of rows: {{data.records|length}}</h3>
-    <div class="listofneighbourhoods">
-        {% for neighbourhood in data.records %}
-            <a href="/neighbourhoods/">{{ neighbourhood.fields.buurt }}</a><br>
-        {% endfor %}
+
+    <div class="row" style="max-width: 100%;">
+        <div class="col" style="max-height: 80vh!important;overflow: scroll;">
+            <h3>Total neighbourhoods: {{ length }}</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"><b>Neighbourhood</b></th>
+                    <th scope="col"><b>Neighbourhood code</b></th>
+                    <th scope="col"><b>Amount of waste bins</b></th>
+                    <th scope="col"><b>Amount of residents</b></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for neighbourhood in data %}
+                    <tr>
+                        <td scope="row">{{ neighbourhood.name }}</td>
+                        <td></td>
+                        <td>{{ neighbourhood.count }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col" style="max-height: 80vh!important;overflow: scroll;padding:2rem;">
+            <template v-if="wasteBinsData != null">
+                <WasteBinsChart :data="wasteBinsData"></WasteBinsChart>
+            </template>
+        </div>
     </div>
+
 {% endblock %}
