@@ -62,7 +62,15 @@ def neighbourhood_chart(response):
 
     chart_data = []
     for item in main_data_array:
-        chart_data.append({'label': item.get('name'), 'data': [{ 'x': item.get('residents'), 'y': item.get('waste_bins') }], 'borderColor': '#AC3928', 'backgroundColor': '#F25138'})
+        if item.get('residents') == 0:
+            item['residents'] = 1
+        if item.get('waste_bins') == 0:
+            item['waste_bins'] = 1
+
+        if item.get('residents')/item.get('waste_bins') < 39 and item.get('waste_bins') > 50 or item.get('residents')/item.get('waste_bins') > 130 and item.get('residents') > 1500:
+            chart_data.append({'label': item.get('name') + " (Residents, Waste bins)", 'data': [{ 'x': item.get('residents'), 'y': item.get('waste_bins') }], 'borderColor': '#ff3d3d', 'backgroundColor': '#ff3d3d'})
+        else:
+            chart_data.append({'label': item.get('name') + " (Residents, Waste bins)", 'data': [{ 'x': item.get('residents'), 'y': item.get('waste_bins') }], 'borderColor': '#c9c9c9', 'backgroundColor': '#c9c9c9'})
 
     return JsonResponse(data=chart_data, safe=False)
 

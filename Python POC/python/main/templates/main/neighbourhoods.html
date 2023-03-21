@@ -50,7 +50,8 @@ Neighbourhoods
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
 
         $(function () {
@@ -70,29 +71,28 @@ Neighbourhoods
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            legend: {
-                                display: false
-                            },
-                            title: {
-                                display: true,
-                                text: 'Waste bins to residents ratio'
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Waste bins to residents ratio'
+                                },
                             },
                             scales: {
-                                xAxes: [{
-                                    scaleLabel: {
+                                x: {
+                                    title: {
                                         display: true,
-                                        labelString: 'Amount of residents in the neighbourhood'
+                                        text: 'Amount of residents in the neighbourhood'
                                     }
-                                }],
-                                yAxes: [{
-                                    scaleLabel: {
+                                },
+                                y: {
+                                    title: {
                                         display: true,
-                                        labelString: 'Amount of waste bins in the neighbourhood'
+                                        text: 'Amount of waste bins in the neighbourhood'
                                     }
-                                }]
-                            },
-                            tooltip: {
-                                enabled:false
+                                }
                             }
                         }
 
