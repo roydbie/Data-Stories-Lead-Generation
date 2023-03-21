@@ -43,10 +43,65 @@ Neighbourhoods
             </table>
         </div>
         <div class="col" style="max-height: 80vh!important;overflow: scroll;padding:2rem;">
-            <template v-if="wasteBinsData != null">
-                <WasteBinsChart :data="wasteBinsData"></WasteBinsChart>
-            </template>
+            <div id="container" style="height:100%;width:100%;">
+                <canvas id="neighbourhood-chart" data-url="{% url 'neighbourhood-chart' %}"></canvas>
+            </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script>
+
+        $(function () {
+
+            const $neighbourhoodChart = $("#neighbourhood-chart");
+            $.ajax({
+                url: $neighbourhoodChart.data("url"),
+                success: function (data) {
+
+                    const ctx = $neighbourhoodChart[0].getContext("2d");
+
+                    new Chart(ctx, {
+                        type: 'scatter',
+                        data: {
+                            datasets: data
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Waste bins to residents ratio'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Amount of residents in the neighbourhood'
+                                    }
+                                }],
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Amount of waste bins in the neighbourhood'
+                                    }
+                                }]
+                            },
+                            tooltip: {
+                                enabled:false
+                            }
+                        }
+
+                    });
+                }
+            });
+
+        });
+
+    </script>
 
 {% endblock %}
