@@ -19,12 +19,14 @@ Neighbourhoods
     <h1>Neighbourhoods</h1>
 
     <div class="row" style="max-width: 100%;font-size: 0.9rem!important;">
-        <div class="col" style="max-height: 80vh!important;overflow: scroll;">
+        <div class="col" style="max-height: 80vh!important;overflow: scroll;padding:2rem;">
             <div id="loadingTable">
-                Loading table...
+                <div class="spinner-border text-danger" role="status">
+
+                </div>
             </div>
             <h3 id="total"></h3>
-            <table class="table" id="table">
+            <table class="table" id="table" style="display: none;">
                 <thead>
                 <tr>
                     <th scope="col"><b>Neighbourhood</b></th>
@@ -40,7 +42,9 @@ Neighbourhoods
         </div>
         <div class="col" style="max-height: 80vh!important; height: 80vh;overflow: scroll;padding:2rem;">
             <div id="loadingChart">
-                Loading chart...
+                <div class="spinner-border text-danger" role="status">
+
+                </div>
             </div>
             <div id="container" style="height:100%;width:100%;">
                 <canvas id="neighbourhood-chart" data-url="{% url 'neighbourhood-chart' %}"></canvas>
@@ -107,6 +111,7 @@ Neighbourhoods
                     jQuery.each(data.data, function(index, item) {
                         $('#table > tbody:last-child').append('<tr><td>' + item.name + '</td><td>' + item.code + '</td><td>' + item.waste_bins + '</td><td>' + item.residents + '</td></tr>');
                     });
+                    $('#table').css("display", "table");
                     $('#total').text('Total amount of neighbourhoods: ' + data.length);
                 }
             });
