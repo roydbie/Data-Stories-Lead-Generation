@@ -10,7 +10,7 @@ from collections import Counter
 def home(response):
     return render(response, "main/home.html", {})
 
-def neighbourhood_chart(response):
+def neighbourhood_chartdata(response):
 
     neighbourhoods = requests.get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=buurten&q=&fields=buurtcode,buurtnaam&rows=10000')
     neighbourhoods_data = neighbourhoods.json()
@@ -74,7 +74,8 @@ def neighbourhood_chart(response):
 
     return JsonResponse(data=chart_data, safe=False)
 
-def neighbourhoods(response):
+def neighbourhood_data(response):
+
     neighbourhoods = requests.get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=buurten&q=&fields=buurtcode,buurtnaam&rows=10000')
     neighbourhoods_data = neighbourhoods.json()
 
@@ -123,7 +124,12 @@ def neighbourhoods(response):
             else:
                 item['residents'] = second_item['residents']
 
-    return render(response, "main/neighbourhoods.html", {"data": main_data_array, "length": len(main_data_array)})
+    return JsonResponse(data={"data": main_data_array, "length": len(main_data_array)}, safe=False)
+
+
+
+def neighbourhoods(response):
+    return render(response, "main/neighbourhoods.html")
 
 def neighbourhood(response, id):
     x = Neighbourhood.objects.get(id=id)

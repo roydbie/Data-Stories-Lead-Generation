@@ -20,8 +20,11 @@ Neighbourhoods
 
     <div class="row" style="max-width: 100%;font-size: 0.9rem!important;">
         <div class="col" style="max-height: 80vh!important;overflow: scroll;">
-            <h3>Total neighbourhoods: {{ length }}</h3>
-            <table class="table">
+            <div id="loadingTable">
+                Loading table...
+            </div>
+            <h3 id="total"></h3>
+            <table class="table" id="table">
                 <thead>
                 <tr>
                     <th scope="col"><b>Neighbourhood</b></th>
@@ -30,19 +33,15 @@ Neighbourhoods
                     <th scope="col"><b>Amount of residents</b></th>
                 </tr>
                 </thead>
-                <tbody>
-                {% for neighbourhood in data %}
-                    <tr>
-                        <td>{{ neighbourhood.name }}</td>
-                        <td>{{ neighbourhood.code }}</td>
-                        <td>{{ neighbourhood.waste_bins }}</td>
-                        <td>{{ neighbourhood.residents }}</td>
-                    </tr>
-                {% endfor %}
+                <tbody id="neighbourhood-data" data-url="{% url 'neighbourhood-data' %}">
+
                 </tbody>
             </table>
         </div>
-        <div class="col" style="max-height: 80vh!important;overflow: scroll;padding:2rem;">
+        <div class="col" style="max-height: 80vh!important; height: 80vh;overflow: scroll;padding:2rem;">
+            <div id="loadingChart">
+                Loading chart...
+            </div>
             <div id="container" style="height:100%;width:100%;">
                 <canvas id="neighbourhood-chart" data-url="{% url 'neighbourhood-chart' %}"></canvas>
             </div>
@@ -53,16 +52,12 @@ Neighbourhoods
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-
         $(function () {
-
             const $neighbourhoodChart = $("#neighbourhood-chart");
             $.ajax({
                 url: $neighbourhoodChart.data("url"),
                 success: function (data) {
-
                     const ctx = $neighbourhoodChart[0].getContext("2d");
-
                     new Chart(ctx, {
                         type: 'scatter',
                         data: {
@@ -97,6 +92,22 @@ Neighbourhoods
                         }
 
                     });
+                    $('#loadingChart').remove();
+                }
+            });
+
+        });
+
+        $(function () {
+            const $neighbourhoodData = $("#neighbourhood-data");
+            $.ajax({
+                url: $neighbourhoodData.data("url"),
+                success: function (data) {
+                    $('#loadingTable').remove();
+                    jQuery.each(data.data, function(index, item) {
+                        $('#table > tbody:last-child').append('<tr><td>' + item.name + '</td><td>' + item.code + '</td><td>' + item.waste_bins + '</td><td>' + item.residents + '</td></tr>');
+                    });
+                    $('#total').text('Total amount of neighbourhoods: ' + data.length);
                 }
             });
 
