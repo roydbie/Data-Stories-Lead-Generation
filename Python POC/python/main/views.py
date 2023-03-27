@@ -135,5 +135,44 @@ def publicreports(response):
     return render(response, "main/publicreports.html")
 
 def publicreports_data(response, x, y):
-    return JsonResponse(data={"data": {"x": x, "y": y}}, safe=False)
+    # Will get the name and code from all the neighbourhoods
+    neighbourhoods = requests.get(
+        'https://data.eindhoven.nl/api/records/1.0/search/?dataset=buurten&q=&fields=buurtcode,buurtnaam&rows=10000')
+    # Will turn the response into json
+    neighbourhoods_data = neighbourhoods.json()
+
+    # Create an array with all the neighbourhoods with a name and a code
+    neighbourhood_records = neighbourhoods_data['records']
+    main_data_array = []
+    for record in neighbourhood_records:
+        main_data_array.append(
+            {"name": record['fields'].get('buurtnaam'), "code": record['fields'].get('buurtcode')})
+
+    # Will get all the public reports with the subject of x
+    publicreports = requests.get(
+        'https://data.eindhoven.nl/api/records/1.0/search/?dataset=meldingen-openbare-ruimte&q=&rows=10000&sort=aangemaakt&refine.onderwerp=' + x + '&fields=buurt,onderwerp')
+    # Will turn the response into json
+    publicreports_data = publicreports.json()
+
+    # Will create a counter with the 'buurt' and then the amount of times it occurs in the records array
+    counter = Counter(publicreport['fields'].get('buurt') for publicreport in publicreports_data['records'])
+
+    # With the for loop i loop through the items in the counter and it creates an array with objects like: {"code": 432, "publicreports": 6}
+    publicreports_array = []
+    for code, publicreports in counter.items():
+        if code is not None:
+            publicreports_array.append({"code": int(code[-3:]), "publicreports": publicreports})
+
+    # Turn the array into a dictionary
+    publicreports_dict = {item['code']: item for item in publicreports_array}
+
+    # Then, iterate over the first list and add the corresponding object from the second list
+    for item in main_data_array:
+        if item['code'] in publicreports_dict:
+            second_item = publicreports_dict[item['code']]
+            item['publicreports'] = second_item['publicreports']
+
+
+
+    return JsonResponse(data={"data": main_data_array}, safe=False)
 
