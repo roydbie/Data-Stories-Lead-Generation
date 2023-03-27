@@ -146,25 +146,16 @@ def publicreports_data(response, x, y):
     main_data_array = []
     for record in neighbourhood_records:
         main_data_array.append(
-            {"name": record['fields'].get('buurtnaam'), "code": record['fields'].get('buurtcode')})
+            {"name": record['fields'].get('buurtnaam'), "code": "BU07721" + str(record['fields'].get('buurtcode'))})
 
     # Will get all the public reports with the subject of x
     publicreports = requests.get(
-        'https://data.eindhoven.nl/api/records/1.0/search/?dataset=meldingen-openbare-ruimte&q=&rows=10000&sort=aangemaakt&refine.onderwerp=' + x + '&fields=buurt,onderwerp')
+        'https://data.eindhoven.nl/api/records/1.0/analyze/?dataset=meldingen-openbare-ruimte&q=&rows=10000&sort=aangemaakt&refine.onderwerp=' + x + '&x=buurt&y.publicreports.func=COUNT')
     # Will turn the response into json
     publicreports_data = publicreports.json()
 
-    # Will create a counter with the 'buurt' and then the amount of times it occurs in the records array
-    counter = Counter(publicreport['fields'].get('buurt') for publicreport in publicreports_data['records'])
-
-    # With the for loop i loop through the items in the counter and it creates an array with objects like: {"code": 432, "publicreports": 6}
-    publicreports_array = []
-    for code, publicreports in counter.items():
-        if code is not None:
-            publicreports_array.append({"code": int(code[-3:]), "publicreports": publicreports})
-
     # Turn the array into a dictionary
-    publicreports_dict = {item['code']: item for item in publicreports_array}
+    publicreports_dict = {item['x']: item for item in publicreports_data}
 
     # Then, iterate over the first list and add the corresponding object from the second list
     for item in main_data_array:
