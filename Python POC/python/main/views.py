@@ -74,7 +74,7 @@ def neighbourhood_chartdata(response):
 
     return JsonResponse(data=chart_data, safe=False)
 
-def neighbourhood_data(response):
+def neighbourhood_tabledata(response):
 
     neighbourhoods = requests.get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=buurten&q=&fields=buurtcode,buurtnaam&rows=10000')
     neighbourhoods_data = neighbourhoods.json()
@@ -128,10 +128,6 @@ def neighbourhood_data(response):
 
 
 
-def neighbourhoods(response):
-    return render(response, "main/neighbourhoods.html")
-
-def neighbourhood(response, id):
-    x = Neighbourhood.objects.get(id=id)
-    return render(response, "main/neighbourhood.html", {"neighbourhood": x})
+def wastebins(response):
+    return render(response, "main/wastebins.html")
 

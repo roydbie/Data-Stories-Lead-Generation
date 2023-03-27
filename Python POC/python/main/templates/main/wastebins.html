@@ -16,7 +16,7 @@ Neighbourhoods
         }
 
     </style>
-    <h1>Neighbourhoods</h1>
+    <h1>Waste bins</h1>
 
     <div class="row" style="max-width: 100%;font-size: 0.9rem!important;">
         <div class="col" style="max-height: 80vh!important;overflow: scroll;padding:2rem;">
@@ -35,7 +35,7 @@ Neighbourhoods
                     <th scope="col"><b>Amount of residents</b></th>
                 </tr>
                 </thead>
-                <tbody id="neighbourhood-data" data-url="{% url 'neighbourhood-data' %}">
+                <tbody id="neighbourhood-data" data-url="{% url 'neighbourhood-tabledata' %}">
 
                 </tbody>
             </table>
@@ -47,7 +47,7 @@ Neighbourhoods
                 </div>
             </div>
             <div id="container" style="height:100%;width:100%;">
-                <canvas id="neighbourhood-chart" data-url="{% url 'neighbourhood-chart' %}"></canvas>
+                <canvas id="neighbourhood-chart" data-url="{% url 'neighbourhood-chartdata' %}"></canvas>
             </div>
         </div>
     </div>
