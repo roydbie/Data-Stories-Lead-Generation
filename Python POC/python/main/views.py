@@ -10,7 +10,7 @@ from collections import Counter
 def home(response):
     return render(response, "main/home.html", {})
 
-def neighbourhood_chartdata(response):
+def wastebins_chartdata(response):
 
     neighbourhoods = requests.get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=buurten&q=&fields=buurtcode,buurtnaam&rows=10000')
     neighbourhoods_data = neighbourhoods.json()
@@ -74,7 +74,7 @@ def neighbourhood_chartdata(response):
 
     return JsonResponse(data=chart_data, safe=False)
 
-def neighbourhood_tabledata(response):
+def wastebins_tabledata(response):
 
     neighbourhoods = requests.get('https://data.eindhoven.nl/api/records/1.0/search/?dataset=buurten&q=&fields=buurtcode,buurtnaam&rows=10000')
     neighbourhoods_data = neighbourhoods.json()
@@ -130,4 +130,10 @@ def neighbourhood_tabledata(response):
 
 def wastebins(response):
     return render(response, "main/wastebins.html")
+
+def publicreports(response):
+    return render(response, "main/publicreports.html")
+
+def publicreports_data(response, x, y):
+    return JsonResponse(data={"data": {"x": x, "y": y}}, safe=False)
 

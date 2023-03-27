@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-Neighbourhoods
+Waste bins
 {% endblock %}
 
 {% block content %}
@@ -35,7 +35,7 @@ Neighbourhoods
                     <th scope="col"><b>Amount of residents</b></th>
                 </tr>
                 </thead>
-                <tbody id="neighbourhood-data" data-url="{% url 'neighbourhood-tabledata' %}">
+                <tbody id="neighbourhood-data">
 
                 </tbody>
             </table>
@@ -47,7 +47,7 @@ Neighbourhoods
                 </div>
             </div>
             <div id="container" style="height:100%;width:100%;">
-                <canvas id="neighbourhood-chart" data-url="{% url 'neighbourhood-chartdata' %}"></canvas>
+                <canvas id="neighbourhood-chart"></canvas>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@ Neighbourhoods
         $(function () {
             const $neighbourhoodChart = $("#neighbourhood-chart");
             $.ajax({
-                url: $neighbourhoodChart.data("url"),
+                url: "/wastebins_chartdata",
                 success: function (data) {
                     const ctx = $neighbourhoodChart[0].getContext("2d");
                     new Chart(ctx, {
@@ -103,9 +103,8 @@ Neighbourhoods
         });
 
         $(function () {
-            const $neighbourhoodData = $("#neighbourhood-data");
             $.ajax({
-                url: $neighbourhoodData.data("url"),
+                url: "/wastebins_tabledata",
                 success: function (data) {
                     $('#loadingTable').remove();
                     jQuery.each(data.data, function(index, item) {

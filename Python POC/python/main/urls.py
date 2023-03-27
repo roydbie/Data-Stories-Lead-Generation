@@ -5,6 +5,9 @@ from . import views
 urlpatterns = [
 path("", views.home, name="home"),
 path('wastebins/', views.wastebins, name="wastebins"),
-path('wastebins-chartdata/', views.neighbourhood_chartdata, name='neighbourhood-chartdata'),
-path('wastebins-tabledata/', views.neighbourhood_tabledata, name='neighbourhood-tabledata'),
+path('wastebins_chartdata/', views.wastebins_chartdata, name='wastebins_chartdata'),
+path('wastebins_tabledata/', views.wastebins_tabledata, name='wastebins_tabledata'),
+
+path('publicreports/', views.publicreports, name="publicreports"),
+path('publicreports_data/x=<x>&y=<y>', views.publicreports_data, name='publicreports_data'),
 ]

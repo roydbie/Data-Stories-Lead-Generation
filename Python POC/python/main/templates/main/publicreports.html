@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Public reports
+{% endblock %}
+
+{% block content %}
+    <style type="text/css">
+
+    </style>
+    <h1>Public reports</h1>
+
+    <select class="form-select form-select-sm w-25 m-5" id="subjectSelect">
+      <option value="7.3+iets+anders" selected>7.3 iets anders</option>
+      <option value="2.1+Vervuiling">2.1 Vervuiling</option>
+    </select>
+
+    <div id="data">
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        $('#subjectSelect').change(function(){
+            $(function () {
+            let subjectSelected = $('#subjectSelect').find(":selected").val();
+            $.ajax({
+                url: "/publicreports_data/x=" + subjectSelected + "&y=909090",
+                success: function (data) {
+                    console.log(data.data);
+                }
+            });
+
+        });
+        });
+
+    </script>
+
+{% endblock %}
