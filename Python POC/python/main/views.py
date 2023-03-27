@@ -163,7 +163,36 @@ def publicreports_data(response, x, y):
             second_item = publicreports_dict[item['code']]
             item['publicreports'] = second_item['publicreports']
 
+    # Add residents to the array
+    residents = requests.get(
+        'https://data.eindhoven.nl/api/records/1.0/search/?dataset=selectiontableasjsonashx&q=&rows=10000&refine.jaar=2023&fields=buurtcode,totaal_aantal_inwoners')
+    residents_data = residents.json()
+
+    residents_array = []
+    for neighbourhood in residents_data['records']:
+        residents_array.append({"code": "BU07721" + str(neighbourhood['fields'].get('buurtcode')),
+                                "residents": neighbourhood['fields'].get('totaal_aantal_inwoners')})
+
+    # First, create a dictionary from the second list for quick lookup
+    residents_dict = {item['code']: item for item in residents_array}
+
+    # Then, iterate over the first list and add the corresponding object from the second list
+    for item in main_data_array:
+        if item['code'] in residents_dict:
+            second_item = residents_dict[item['code']]
+            if second_item['residents'] is None:
+                item['residents'] = 0
+            else:
+                item['residents'] = second_item['residents']
+
+    chart_data = []
+    for item in main_data_array:
+        if item.get('publicreports') is not 0:
+            chart_data.append({'label': item.get('name') + " (Residents, Public reports)",
+                               'data': [{'x': item.get('residents'), 'y': item.get('publicreports')}],
+                               'borderColor': '#ff3d3d', 'backgroundColor': '#ff3d3d'})
 
 
-    return JsonResponse(data={"data": main_data_array}, safe=False)
+
+    return JsonResponse(data={"data": chart_data}, safe=False)
 

@@ -17,11 +17,13 @@ Public reports
 
     <select class="form-select form-select-sm w-25 m-5" id="unitSelect" style="display: inline-block;">
       <option value="residents" selected>Number of residents in neighbourhood</option>
-      <option value="surface">Surface of neighbourhood</option>
+      <option value="surface" disabled>Surface of neighbourhood</option>
     </select>
 
-    <div id="data">
 
+    <div id="loading" style="text-align: center"></div>
+    <div id="container" style="height:60vh;width:100%;padding:0 5rem;">
+        <canvas id="chart"></canvas>
     </div>
 
 
@@ -31,13 +33,51 @@ Public reports
     <script>
 
         $('#subjectSelect').change(function(){
+            $("div#loading").append('<div id="spinner" class="spinner-border text-danger" role="status"></div>');
+            $("canvas#chart").remove();
+            $("div#container").append('<canvas id="chart"></canvas>');
+            const $chart = $("#chart");
             $(function () {
+                const ctx = $chart[0].getContext("2d");
                 let subjectSelected = $('#subjectSelect').find(":selected").val();
                 let unitSelected = $('#unitSelect').find(":selected").val();
                 $.ajax({
                     url: "/publicreports_data/x=" + subjectSelected + "&y=" + unitSelected,
                     success: function (data) {
-                        console.log(data.data);
+                        new Chart(ctx, {
+                            type: 'scatter',
+                            data: {
+                                datasets: data.data
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Public reports to residents ratio'
+                                    },
+                                },
+                                scales: {
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Amount of residents in the neighbourhood'
+                                        }
+                                    },
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: 'Amount of public reports in the neighbourhood'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        $('#spinner').remove();
                     }
                 });
             });
