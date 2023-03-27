@@ -3,7 +3,6 @@
   <component name="dataSourceStorageLocal" created-in="PY-223.8836.43">
     <data-source name="db" uuid="73cb210b-9b22-45c2-a477-35e2d550d3f9">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
-      <auth-provider>no-auth</auth-provider>
       <schema-mapping />
     </data-source>
   </component>

@@ -16,8 +16,8 @@ Public reports
     </select>
 
     <select class="form-select form-select-sm w-25 m-5" id="unitSelect" style="display: inline-block;">
-      <option value="7.3+iets+anders" selected>7.3 iets anders</option>
-      <option value="2.1+Vervuiling">2.1 Vervuiling</option>
+      <option value="residents" selected>Number of residents in neighbourhood</option>
+      <option value="surface">Surface of neighbourhood</option>
     </select>
 
     <div id="data">
@@ -32,15 +32,28 @@ Public reports
 
         $('#subjectSelect').change(function(){
             $(function () {
-            let subjectSelected = $('#subjectSelect').find(":selected").val();
-            $.ajax({
-                url: "/publicreports_data/x=" + subjectSelected + "&y=909090",
-                success: function (data) {
-                    console.log(data.data);
-                }
+                let subjectSelected = $('#subjectSelect').find(":selected").val();
+                let unitSelected = $('#unitSelect').find(":selected").val();
+                $.ajax({
+                    url: "/publicreports_data/x=" + subjectSelected + "&y=" + unitSelected,
+                    success: function (data) {
+                        console.log(data.data);
+                    }
+                });
             });
-
         });
+
+        $('#unitSelect').change(function(){
+            $(function () {
+                let subjectSelected = $('#subjectSelect').find(":selected").val();
+                let unitSelected = $('#unitSelect').find(":selected").val();
+                $.ajax({
+                    url: "/publicreports_data/x=" + subjectSelected + "&y=" + unitSelected,
+                    success: function (data) {
+                        console.log(data.data);
+                    }
+                });
+            });
         });
 
     </script>
